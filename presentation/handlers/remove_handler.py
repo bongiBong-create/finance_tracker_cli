@@ -1,9 +1,9 @@
 from application.remove_transaction import remove_transaction
 
-def remove_handler(path):
+def remove_handler(path, data):
     try:
         index = int(input("Введите номер транзакции\n"))
-        flag = remove_transaction(path, index - 1)
+        flag = remove_transaction(path, index - 1, data)
 
         if flag:
             print("Транзакция успешна удалена")

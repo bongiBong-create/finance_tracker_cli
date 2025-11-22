@@ -1,11 +1,12 @@
 from config import cmd_add, cmd_balance, cmd_out, cmd_remove, cmd_transactions
+from infrastracture.storage import init_path
+from infrastracture.storage import init_storage
+from infrastracture.storage import get_data
 from handlers.add_handler import add_handler
 from handlers.remove_handler import remove_handler
 from handlers.balance_handler import balance_handler
 from handlers.transactions_handler import transactions_handler
 from handlers.out_handler import out_handler
-from infrastracture.storage import init_path
-from infrastracture.storage import init_storage
 
 def start_cli():
     print("Добрый день!")
@@ -23,11 +24,12 @@ def start_cli():
     flag = True
 
     while flag:
+        data = get_data(path)
         command = input(f"Введите команду: {"/".join(commands.keys())}\n").lower()
         handler = commands.get(command)
 
         if handler:
-            flag = handler(path)
+            flag = handler(path, data)
         else:
             print("Введите корректную команду")
 
