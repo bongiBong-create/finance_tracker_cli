@@ -1,0 +1,5 @@
+cmd_add = "добавить"
+cmd_remove = "удалить"
+cmd_balance = "баланс"
+cmd_transactions = "транзакции"
+cmd_out = "выход"

@@ -1,53 +1,34 @@
-from application.add_transaction import add_transaction
-from application.get_transactions import get_transactions
-from application.remove_transaction import remove_transaction
-from application.get_balance import get_balance
+from config import cmd_add, cmd_balance, cmd_out, cmd_remove, cmd_transactions
+from handlers.add_handler import add_handler
+from handlers.remove_handler import remove_handler
+from handlers.balance_handler import balance_handler
+from handlers.transactions_handler import transactions_handler
+from handlers.out_handler import out_handler
 from infrastracture.storage import init_path
 from infrastracture.storage import init_storage
 
-
 def start_cli():
+    print("Добрый день!")
     path = init_path()
     init_storage(path)
 
-    while True:
-        command = input("Введите команду: Добавить/Удалить/Баланс/Операции/Выход\n").lower()
+    commands = {
+        cmd_add: add_handler,
+        cmd_remove: remove_handler,
+        cmd_balance: balance_handler,
+        cmd_transactions: transactions_handler,
+        cmd_out: out_handler,
+    }
 
-        match command:
-            case "добавить":
-                transaction = input("Введите тип операции: Доход/Расход\n").strip().lower()
-                if transaction == "доход":
-                    amount = int(input("Введите сумму\n"))
-                    description = input("Вид заработка\n")
-                    add_transaction(path, transaction, amount, description)
-                    print("Транзакция успешно добавлена")
-                elif transaction == "расход":
-                    amount = int(input("Введите сумму\n"))
-                    description = input("Введите покупку\n")
-                    add_transaction(path, transaction, amount, description)
-                    print("Транзакция успешно добавлена")
-                else:
-                    print("Введите корректную операцию")
-            case "баланс":
-                balance = get_balance(path)
+    flag = True
 
-                print(f"Баланс: {balance}")
-            case "операции":
-                transactions = get_transactions(path)
-                if len(transactions) > 0:
-                    for i, value in enumerate(transactions):
-                        print(f"Задач №{i + 1}\n"
-                              f"Тип: {value['type']}\n"
-                              f"Описание: {value['description']}")
-                else:
-                    print("Нет транзакций")
-            case "удалить":
-                index = int(input("Введите номер транзакции"))
-                remove_transaction(path, index - 1)
-                print("Транзакция успешна удалена")
-            case "выход":
-                break
-            case _:
-                print("Введите корректную команду")
+    while flag:
+        command = input(f"Введите команду: {"/".join(commands.keys())}\n").lower()
+        handler = commands.get(command)
+
+        if handler:
+            flag = handler(path)
+        else:
+            print("Введите корректную команду")
 
 start_cli()

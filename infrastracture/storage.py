@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 
-def init_path(file="data.json"):
-    return Path(__file__).parent/file
+def init_path(filename="data.json"):
+    return Path(__file__).parent / filename
 
 def init_storage(path):
     if not path.exists():
