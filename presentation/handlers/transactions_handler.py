@@ -1,21 +1,16 @@
-from shared.utils import filtered_transactions, check_length, print_transactions
+from shared.utils import print_transactions
+from application.get_transactions import get_transactions
 
 def transactions_handler(path, data):
     categories = {el["category"] for el in data}
     categories.add("общие")
     category = input(f"Введите категорию: {"/".join(categories)}\n").lower()
 
-    if check_length(data):
-        if category in categories:
-            if category == "общие":
-                print_transactions(data)
-            else:
-                transactions = filtered_transactions(data, category)
-                print_transactions(transactions)
-        else:
+    success, error = get_transactions(path, data, category, categories)
 
-            print("Нет транзакций этой категории")
+    if success:
+        print_transactions(success)
     else:
-        print("Нет транзакций")
+        print(f"{error}")
 
     return True

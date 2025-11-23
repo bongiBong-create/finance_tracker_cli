@@ -4,8 +4,8 @@ def filtered_transactions(transactions, category):
 def check_length(transactions):
     return bool(transactions)
 
-# def check_index(index):
-#     return int(index)
+def check_index(index, data):
+    return 0 <= int(index) < len(data)
 
 def print_transactions(transactions):
     for i, value in enumerate(transactions):
@@ -13,4 +13,4 @@ def print_transactions(transactions):
               f"Тип: {value['type']}\n"
               f"Сумма: {value['amount']}\n"
               f"Категория: {value['category']}\n"
-              f"Описание: {value['description']}"              )
+              f"Описание: {value['description']}")
