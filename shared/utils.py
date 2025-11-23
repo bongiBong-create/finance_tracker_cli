@@ -16,9 +16,14 @@ def print_transactions(transactions):
               f"Категория: {value['category']}\n"
               f"Описание: {value['description']}")
 
-def get_datetime(date):
+def get_datetime(date, flag=None):
     time = date.time().strftime("%H:%M")
     date = date.date()
     y, d, m = date.year, date.month, date.day
+
+    if flag == "дата":
+        return f"{d}.{m}.{y}"
+    elif flag == "время":
+        return time
 
     return f"{d}.{m}.{y} {time}"
