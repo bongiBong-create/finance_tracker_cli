@@ -1,6 +1,9 @@
 from infrastracture.storage import save_data
+from shared.utils import get_datetime
 
-def add_transaction(path, type_op, amount, category, description, data):
+def add_transaction(path, date, type_op, amount, category, description, data):
+    date = get_datetime(date)
+
     if type_op not in ("доход", "расход"):
         return False, "Некорректная тип операции"
 
@@ -19,6 +22,7 @@ def add_transaction(path, type_op, amount, category, description, data):
         return False, "Описание не может быть пустым"
 
     operation = {"type": type_op,
+                 "date": date,
                  "amount": amount,
                  "category": category,
                  "description": description}
